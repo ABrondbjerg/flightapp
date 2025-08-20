@@ -24,7 +24,7 @@ class FlightReaderTest {
     void tearDown() {
     }
 
-//    @Test // This test requires an API key and a free account only has 100 requests per month, so run this test with caution.
+    //    @Test // This test requires an API key and a free account only has 100 requests per month, so run this test with caution.
     @DisplayName("Test if url writer method works")
     void reader() {
         try {
@@ -38,14 +38,10 @@ class FlightReaderTest {
 
     @Test
     @DisplayName("Test getting stream info from collection")
-    void getInfo() {
-        try {
-            List<FlightDTO> flights = reader.getFlightsFromFile("flights.json");
-            List<FlightInfoDTO> flightInfoList = reader.getFlightInfoDetails(flights);
-            assertEquals("Royal Jordanian", flightInfoList.get(0).getAirline());
-
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
+    void getInfo() throws IOException {
+        List<FlightDTO> flights = reader.getFlightsFromFile("flights.json");
+        List<FlightInfoDTO> flightInfoList = reader.getFlightInfoDetails(flights);
+        assertEquals("Royal Jordanian", flightInfoList.get(0).getAirline());
+        assertEquals("QY5334",flightInfoList.get(3).getIata());
     }
 }

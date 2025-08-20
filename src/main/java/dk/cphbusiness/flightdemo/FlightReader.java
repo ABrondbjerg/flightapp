@@ -3,6 +3,7 @@ package dk.cphbusiness.flightdemo;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import dk.cphbusiness.flightdemo.dtos.FlightDTO;
 import dk.cphbusiness.flightdemo.dtos.FlightInfoDTO;
+import dk.cphbusiness.flightdemo.dtos.FlightServices;
 import dk.cphbusiness.utils.Utils;
 
 import java.io.IOException;
@@ -10,6 +11,8 @@ import java.nio.file.Paths;
 import java.time.Duration;
 import java.time.LocalDateTime;
 import java.util.*;
+
+import static dk.cphbusiness.flightdemo.dtos.FlightServices.getFlightsAirport;
 
 /**
  * Purpose:
@@ -23,6 +26,14 @@ public class FlightReader {
             List<FlightDTO> flightList = getFlightsFromFile("flights.json");
             List<FlightInfoDTO> flightInfoDTOList = getFlightInfoDetails(flightList);
             flightInfoDTOList.forEach(System.out::println);
+
+            Duration totalLUF = FlightServices.getFlightTime(flightInfoDTOList, "Lufthansa");
+            System.out.println("Timer i alt " + totalLUF.toHours());
+
+            List<FlightInfoDTO> fukuokaHaneda = FlightServices.getFlightsAirport(flightInfoDTOList, "Queen Alia International", "King Hussein International");
+            System.out.println("Found " + fukuokaHaneda.size() + " flights between Fukuoka and Haneda.");
+            fukuokaHaneda.forEach(System.out::println);
+
         } catch (IOException e) {
             e.printStackTrace();
         }
